@@ -19,86 +19,85 @@
         - ConcreteProduct: define un objeto de producto a ser creado por la correspondiente fabrica concreta (ConcreteFactory). Implementa la interfaz AbstractProduct.
         - Client: usa solo interfaces declaradas por AbstarctFactory y AbstractProduct.
     - **Código de ejemplo:** 
-            ```java
+        ```java
+        public interface AbstractFactory{
 
-            public interface AbstractFactory{
-    
-                public AbstractProductA constructA();
-                public AbstractProductB constructB();
-    
+            public AbstractProductA constructA();
+            public AbstractProductB constructB();
+
+        }
+
+        public class ConcreteFactoryX implements AbstractFactory{
+
+            public AbstractProductA constructA(){
+                return new ProductATypeX();
             }
 
-            public class ConcreteFactoryX implements AbstractFactory{
-    
-                public AbstractProductA constructA(){
-                    return new ProductATypeX();
+            public AbstractProductB constructA(){
+                return new ProductBTypeX();
+            }
+        }
+
+        public class ConcreteFactoryY implements AbstractFactory{
+            
+            public AbstractProductA constructA(){
+                return new ProductATypeY();
+            }
+            
+            public AbstractProductB constructA(){
+                return new ProductBTypeY();
+            }
+        }
+
+        public abstract class AbstractProductA{
+            
+        }
+
+
+
+        public class ProductATypeX{
+            
+        }
+
+        public class ProductATypeY{
+            
+        }
+
+
+        public abstract class AbstractProductA{
+            
+        }
+
+
+        public class ProductBTypeX{
+            
+        }
+
+        public class ProductBTypeY{
+            
+        }
+
+        public class Main {
+            public static void main(String[] args) throws Exception {
+                
+                int opcion = 1;
+                
+                AbstractFactory fabrica;
+                
+                switch(opcion){
+                    case 1:
+                        fabrica = new ConcreteFactoryX();
+                        break;
+                    case 2:
+                        fabrica = new ConcreteFactoryY();
+                        break;
                 }
-    
-                public AbstractProductB constructA(){
-                    return new ProductBTypeX();
-                }
-            }
-
-            public class ConcreteFactoryY implements AbstractFactory{
                 
-                public AbstractProductA constructA(){
-                    return new ProductATypeY();
-                }
-                
-                public AbstractProductB constructA(){
-                    return new ProductBTypeY();
-                }
+                fabrica.constructA();
+                fabrica.constructB();
             }
-
-            public abstract class AbstractProductA{
-                
-            }
-
-
-
-            public class ProductATypeX{
-                
-            }
-
-            public class ProductATypeY{
-                
-            }
-
-
-            public abstract class AbstractProductA{
-                
-            }
-
-
-            public class ProductBTypeX{
-                
-            }
-
-            public class ProductBTypeY{
-                
-            }
-
-            public class Main {
-                public static void main(String[] args) throws Exception {
-                    
-                    int opcion = 1;
-                    
-                    AbstractFactory fabrica;
-                    
-                    switch(opcion){
-                        case 1:
-                            fabrica = new ConcreteFactoryX();
-                            break;
-                        case 2:
-                            fabrica = new ConcreteFactoryY();
-                            break;
-                    }
-                    
-                    fabrica.constructA();
-                    fabrica.constructB();
-                }
-            }
-            ```
+        }
+        ```
 
 
 
