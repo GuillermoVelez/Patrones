@@ -18,7 +18,7 @@
         - AbstractProduct: declara una intefaz para un tipo de objeto de producto.
         - ConcreteProduct: define un objeto de producto a ser creado por la correspondiente fabrica concreta (ConcreteFactory). Implementa la interfaz AbstractProduct.
         - Client: usa solo interfaces declaradas por AbstarctFactory y AbstractProduct.
-        - **Código de ejemplo:** 
+    - **Código de ejemplo:** 
             ```java
 
             public interface AbstractFactory{
