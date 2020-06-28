@@ -1,103 +1,105 @@
 # Patrones de Diseño de Software
 ## Patrones de Creación
-1. **Fábrica abstracta**
-    - **Nombre:** Abstract Factory
-    - **También conocido como:** Kit
-    - **Intención:** Provee una interfaz para la creación de familias de objetos realionados o dependientes sin especificar sus clases concretas.
-    - **Motivación:** Puede usarse en la creación de interfaces de bases de datos, la cual tiene fabricas concretas para manejar diferentes motores de bases de datos, por ejemplo: Oracle, PostgreSQL, etc. Facilitando el agregar un nuevo tipo de base de datos.
-    - **Aplicabilidad** El patrón Abstract Factory debe ser usado cuando:
-        - El sistema debe ser independiente de como sus productos son creados, compuestos y representados.
-        - El sistema debe ser configurado con uno de múltiples familias de productos.
-        - Una familia de objetos relacionados es diseñada para ser usada en conjunto y se debe garantizar esa restricción.
-        - Se desea proveer una librería de clases de productos y se desea revelar sus interfaces, no sus implementaciones.
-    -  **Estructura**
-        ![Abstract Factory](Imagenes/AbstractFactory.png)
-    - **Participantes:**
-        - AbstractFactory: declara una interfaz para las operaciones que crean objetos de productos abstractos.
-        -ConcreteFactory: implementa las operaciones para crear productos de objetos concretos.
-        - AbstractProduct: declara una intefaz para un tipo de objeto de producto.
-        - ConcreteProduct: define un objeto de producto a ser creado por la correspondiente fabrica concreta (ConcreteFactory). Implementa la interfaz AbstractProduct.
-        - Client: usa solo interfaces declaradas por AbstarctFactory y AbstractProduct.
-    - **Código de ejemplo:** 
-        ```java
-        public interface AbstractFactory{
+### 1. Fabrica Abstracta 
+Se conoce también como abstract Factory, su objetivo principal es sportar multiples estandarees que sean establecidos por las diferentes jerarquias de herencia de objetos.
+* Un sistema se configurara con una entre varias familias de productos
+* Un conjunto de productos que estan relacionados, fueron hechos para utilizarse juntos 
 
-            public AbstractProductA constructA();
-            public AbstractProductB constructB();
+![DiagramaAbstractFactory](imagenes/DiagramaAbstractFactory.png)
 
-        }
+#### Elementos:
+* **AngularJS** : Declara una interfaz para la creación de objetos de productos abstractos.
+* **ConcreteFactory** : implementa las operaciones para la creacion de objetos de sus productos concretos.
+* **AbstractProduct** : Crea una interfaz para los objetos de un determinado tipo de productos.
+* **ConcreteProduct** : Fija el objeto de un producto perteneciente a la factoria concreta encargada de crear e implementar la interfaz del producto abstracto.
+* **Client**: Utiliza las interfaces de la factoria y los productos abstractos.
 
-        public class ConcreteFactoryX implements AbstractFactory{
+#### Consecuencias:
+* Las clases de implementación no son visibles para los clientes.
+* Facilita el intercambio de familias de productos.
+* Mejora el acoplamiento entre productos.
 
-            public AbstractProductA constructA(){
-                return new ProductATypeX();
-            }
+#### Código:
 
-            public AbstractProductB constructA(){
-                return new ProductBTypeX();
-            }
-        }
+```java
+public abstract class Disco implements Prototipo {
+    @Override
+    public abstract Prototipo clone();
 
-        public class ConcreteFactoryY implements AbstractFactory{
-            
-            public AbstractProductA constructA(){
-                return new ProductATypeY();
-            }
-            
-            public AbstractProductB constructA(){
-                return new ProductBTypeY();
-            }
-        }
+    public abstract String getCapacidad();
 
-        public abstract class AbstractProductA{
-            
-        }
+    public abstract String getNombre();
 
+    public abstract String getPrecio();
 
+    @Override
+    public String toString() {
+            return getNombre() + " (" + getCapacidad() + ")";
+    }
+}
+public abstract class DVD extends Disco {
+...
+}
+public class DVD_CapaSimple extends DVD {
 
-        public class ProductATypeX{
-            
-        }
+    @Override
+    public Prototipo clone() {
+            return new DVD_CapaSimple();
+    }
 
-        public class ProductATypeY{
-            
-        }
+    @Override
+    public String getCapacidad() {
+            return "4.7GB";
+    }
 
+    @Override
+    public String getNombre() {
+            return "DVD Capa Simple";
+    }
 
-        public abstract class AbstractProductA{
-            
-        }
+    @Override
+    public String getPrecio() {
+            return "5.00$";
+    }
 
+}
+public interface FabricaDiscos {
 
-        public class ProductBTypeX{
-            
-        }
+        public BluRay crearBluRay();
+        public DVD crearDVD();
+}
+public class FabricaDiscos_CapaSimple implements FabricaDiscos {
 
-        public class ProductBTypeY{
-            
-        }
+       @Override
+       public BluRay crearBluRay() {
+               return new BluRay_CapaSimple();
+       }
 
-        public class Main {
-            public static void main(String[] args) throws Exception {
-                
-                int opcion = 1;
-                
-                AbstractFactory fabrica;
-                
-                switch(opcion){
-                    case 1:
-                        fabrica = new ConcreteFactoryX();
-                        break;
-                    case 2:
-                        fabrica = new ConcreteFactoryY();
-                        break;
-                }
-                
-                fabrica.constructA();
-                fabrica.constructB();
-            }
-        }
-        ```
+       @Override
+       public DVD crearDVD() {
+               return new DVD_CapaSimple();
+       }
+
+}
+FabricaDiscos fabrica;
+DVD dvd;
+BluRay bluray;
+
+fabrica = new FabricaDiscos_CapaSimple();
+dvd = fabrica.crearDVD();
+bluray = fabrica.crearBluRay();
+
+System.out.println(dvd);
+System.out.println(bluray);
+
+fabrica = new FabricaDiscos_CapaDoble();
+dvd = fabrica.crearDVD();
+bluray = fabrica.crearBluRay();
+
+System.out.println(dvd);
+System.out.println(bluray);
+ ```
+Código tomado de: http://lineadecodigo.com/patrones/patron-abstract-factory/
 
 
 
